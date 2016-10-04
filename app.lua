@@ -1,10 +1,55 @@
 local lapis = require("lapis")
+local favorite_foods = {
+  ["pizza"] = "Wow pizza is the best! Definitely my favorite",
+  ["egg"] = "A classic breakfast, never leave home without",
+  ["ice cream"] = "Can't have a food list without a dessert"
+}
 do
   local _class_0
   local _parent_0 = lapis.Application
   local _base_0 = {
-    ["/"] = function(self)
-      return "Welcome to Lapis " .. tostring(require("lapis.version")) .. " and \"Hello World\"!"
+    [{
+      index = "/"
+    }] = function(self)
+      return self:html(function()
+        h1("Welcome to Lapis " .. tostring(require("lapis.version")))
+        return a({
+          href = self:url_for("food_list")
+        }, "Favorite Foods!")
+      end)
+    end,
+    [{
+      food_list = "/foods"
+    }] = function(self)
+      return self:html(function()
+        return ul(function()
+          for food in pairs(favorite_foods) do
+            li(function()
+              return a({
+                href = self:url_for(("food"):gsub("%s+", ""), {
+                  name = food:gsub("%s+", "")
+                })
+              }, food)
+            end)
+          end
+        end)
+      end)
+    end,
+    [{
+      food = "/food/:name"
+    }] = function(self)
+      local food_description = favorite_foods[(self.params.name):gsub("%s+", "")]
+      if not (food_description) then
+        return "Not Found", {
+          status = 404
+        }
+      end
+      return self:html(function()
+        h1(self.params.name)
+        hr()
+        h2("My thoughts on this food")
+        return p(food_description)
+      end)
     end
   }
   _base_0.__index = _base_0
