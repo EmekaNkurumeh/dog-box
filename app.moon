@@ -4,14 +4,14 @@ pack = (...) -> {...}
 favorite_foods = {
   "pizza": "Wow pizza is the best! Definitely my favorite"
   "egg": "A classic breakfast, never leave home without"
-  "ice_cream": "Can't have a food list without a dessert"
+  "ice cream": "Can't have a food list without a dessert"
 }
 
 class extends lapis.Application
   [index: "/"]: =>
     @html ->
-      h1 "Welcome to Lapis #{require "lapis.version"}"
-      a href: @url_for("food_list"), "Favorite Foods!"
+      h1 "Welcome to Lapis #{require "lapis.version"},"
+      a href: @url_for("food_list"), "where I show off my favorite Foods!"
 
   [food_list: "/foods"]: =>
     @html ->
