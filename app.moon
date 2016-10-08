@@ -18,10 +18,10 @@ class extends lapis.Application
       ul ->
         for food in pairs favorite_foods
           li ->
-            a href: @url_for("food", url: pack(food\gsub("%s+", ""))[1], name: food), food
+            a href: @url_for("food", url: pack(food\gsub("%s+",""))[1], name: food), food
 
-  [food: "/food/:url"]: =>
-    food_description = favorite_foods[@params["#{name}"]]
+  [food: "/foods/:url"]: =>
+    food_description = favorite_foods[@params.name]
     unless food_description
       return "Not Found", status: 404
 
