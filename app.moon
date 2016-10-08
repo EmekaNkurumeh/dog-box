@@ -19,16 +19,19 @@ class extends lapis.Application
         for food in pairs favorite_foods 
           li ->
             a href: @url_for("food", {name: pack(food\gsub("%s+","_"))[1]}), food
-
+            li ->
+              a href: @url_for("food", {name: pack(food\gsub("%s+","_"))[1]}, raw: true), "json"
   [food: "/foods/:name"]: =>
     name = pack(@params.name\gsub("_+"," "))[1]
     food_description = favorite_foods[name]
     unless food_description
         "Not Found", status: 404
-
-    @html ->
-      h1 name
-      hr!
-      h2 "My thoughts on this food"
-      p food_description
+    if @params.raw
+      @html ->
+        h1 name
+        hr!
+        h2 "My thoughts on this food"
+        p food_description
+    else
+      json: favorite_foods[name]
  
