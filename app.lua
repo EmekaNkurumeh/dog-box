@@ -20,12 +20,12 @@ do
       return self:html(function()
         h1("Welcome to Lapis " .. tostring(require("lapis.version")) .. ",")
         return a({
-          href = self:url_for("food_list")
-        }, "where I show off my favorite Foods!")
+          href = self:url_for("list")
+        }, "which I am using to show off my favorite foods!")
       end)
     end,
     [{
-      food_list = "/foods"
+      list = "/foods"
     }] = function(self)
       return self:html(function()
         return ul(function()
@@ -33,8 +33,7 @@ do
             li(function()
               return a({
                 href = self:url_for("food", {
-                  url = pack(food:gsub("%s+", ""))[1],
-                  name = food
+                  name = pack(food:gsub("%s+", "_"))[1]
                 })
               }, food)
             end)
@@ -43,11 +42,17 @@ do
       end)
     end,
     [{
-      food = "/food/:url"
+      food = "/foods/:name"
     }] = function(self)
-      local food_description = favorite_foods[self.params.name]
+      local name = pack(self.params.name:gsub("_+", " "))[1]
+      local food_description = favorite_foods[name]
+      if not (food_description) then
+        local _ = "Not Found", {
+          status = 404
+        }
+      end
       return self:html(function()
-        h1(self.params.name)
+        h1(name)
         hr()
         h2("My thoughts on this food")
         return p(food_description)
