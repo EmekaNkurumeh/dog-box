@@ -1,14 +1,26 @@
 local lapis = require("lapis")
+local Food
+Food = require("static.assets.code.food").Food
 local pack
 pack = function(...)
   return {
     ...
   }
 end
+local unpack = unpack or table.unpack
 local favorite_foods = {
-  ["pizza"] = "Wow pizza is the best! Definitely my favorite",
-  ["egg"] = "A classic breakfast, never leave home without",
-  ["ice cream"] = "Can't have a food list without a dessert"
+  Food({
+    name = "pizza",
+    description = "Wow pizza is the best! Definitely my favorite"
+  }),
+  Food({
+    name = "egg",
+    description = "A classic breakfast, never leave home without"
+  }),
+  Food({
+    name = "ice cream",
+    description = "Can't have a food list without a dessert"
+  })
 }
 do
   local _class_0
@@ -29,13 +41,15 @@ do
     }] = function(self)
       return self:html(function()
         return ul(function()
-          for food in pairs(favorite_foods) do
+          for _index_0 = 1, #favorite_foods do
+            local food = favorite_foods[_index_0]
             li(function()
               return a({
                 href = self:url_for("food", {
-                  name = pack(food:gsub("%s+", "_"))[1]
+                  name = pack(food.atr.name:gsub("%s+", "_"))[1],
+                  indx = _index_0
                 })
-              }, food)
+              }, food.atr.name)
             end)
           end
         end)
@@ -45,8 +59,8 @@ do
       food = "/foods/:name"
     }] = function(self)
       local name = pack(self.params.name:gsub("_+", " "))[1]
-      local food_description = favorite_foods[name]
-      if not (food_description) then
+      local food = favorite_foods[self.params.indx]
+      if not (food) then
         local _ = "Not Found", {
           status = 404
         }
@@ -55,7 +69,7 @@ do
         h1(name)
         hr()
         h2("My thoughts on this food")
-        return p(food_description)
+        return p(food.atr.description)
       end)
     end
   }

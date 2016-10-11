@@ -3,3 +3,4 @@
 2016/10/07 23:32:50 [alert] 1392#0: lua_code_cache is off; this will hurt performance in /Users/patiencenkurumeh/dog-box/nginx.conf.compiled:16
 2016/10/08 17:02:25 [alert] 3623#0: lua_code_cache is off; this will hurt performance in /Users/patiencenkurumeh/dog-box/nginx.conf.compiled:16
 2016/10/08 18:10:20 [alert] 5404#0: lua_code_cache is off; this will hurt performance in /Users/patiencenkurumeh/dog-box/nginx.conf.compiled:16
+2016/10/10 15:37:41 [alert] 1482#0: lua_code_cache is off; this will hurt performance in /Users/patiencenkurumeh/dog-box/nginx.conf.compiled:16
